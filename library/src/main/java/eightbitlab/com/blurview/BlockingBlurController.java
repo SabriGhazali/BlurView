@@ -141,13 +141,17 @@ final class BlockingBlurController implements BlurController {
             frameClearDrawable.draw(internalCanvas);
         }
 
-        if (hasFixedTransformationMatrix) {
-            rootView.draw(internalCanvas);
-        } else {
-            internalCanvas.save();
-            setupInternalCanvasMatrix();
-            rootView.draw(internalCanvas);
-            internalCanvas.restore();
+        try {
+            if (hasFixedTransformationMatrix) {
+                rootView.draw(internalCanvas);
+            } else {
+                internalCanvas.save();
+                setupInternalCanvasMatrix();
+                rootView.draw(internalCanvas);
+                internalCanvas.restore();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         blurAndSave();
